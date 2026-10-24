@@ -1,34 +1,35 @@
-# Experimental Methodology and Validation
+# Méthode expérimentale
 
-## Recorded design
+## Plan utilisé pour les résultats publiés
 
-The supplied handwritten record contains 15 observations:
+Les résultats relevés correspondent à 15 exécutions :
 
-- 5 runs at `meanServiceMin = 3.0`
-- 5 runs at `meanServiceMin = 4.0`
-- 5 runs at `meanServiceMin = 4.5`
+- 5 réplications avec `meanServiceMin = 3,0` ;
+- 5 réplications avec `meanServiceMin = 4,0` ;
+- 5 réplications avec `meanServiceMin = 4,5`.
 
-The arrival parameter remains 5.0 minutes in the supplied AnyLogic project. Each run is described by completed parts, time-average queue length, and mean utilization.
+Le paramètre d'arrivée du modèle transmis est maintenu à 5,0 minutes. Pour chaque réplication, trois indicateurs sont relevés : le nombre de pièces terminées, la longueur moyenne de la file et l'utilisation moyenne.
 
-## Calculation method
+## Démarche suivie
 
-For each service-time setting and each indicator:
+1. Reporter une ligne par réplication dans [../results/raw_results.csv](../results/raw_results.csv).
+2. Séparer les lignes selon le temps moyen de service.
+3. Calculer la moyenne, l'écart-type expérimental et les quartiles de chaque groupe.
+4. Construire un intervalle de confiance de Student à 95 % si les réplications sont indépendantes.
+5. Interpréter les écarts avec prudence, car il n'y a que cinq valeurs par scénario.
 
-1. Transcribe the five observed values into the raw-results table.
-2. Compute the arithmetic mean: sum of the five values divided by 5.
-3. Compute the sample standard deviation with denominator 4.
-4. Preserve every individual observation so that the summary can be audited.
+Les formules et les calculs numériques sont détaillés dans [analyse-statistique.md](analyse-statistique.md).
 
-The exact values and derived quantities are in [../results/summary.md](../results/summary.md).
+## Contrôles réalisés
 
-## Validation performed
+- 15 valeurs ont été comptées : 5 pour chacun des 3 scénarios.
+- Les valeurs d'utilisation sont toutes comprises entre 0 et 1.
+- Les trois colonnes de résultats correspondent aux expressions suivies dans le modèle AnyLogic.
+- L'horizon de 480 minutes, le paramètre d'arrivée à 5,0 minutes, les trois réglages de service et le mode `Random seed` avec valeur 42 ont été vérifiés dans le fichier `.alp`.
+- Les moyennes, écarts-types, quartiles et intervalles publiés sont recalculés à partir du CSV brut.
 
-- Counted 15 observations in total, with five observations in each of the three service-time groups.
-- Confirmed that all utilization observations lie between 0 and 1.
-- Confirmed that the indicator names in the handwritten record match the three chart expressions in the AnyLogic file.
-- Checked the model source for the stated 480-minute horizon, 5.0-minute default arrival parameter, service-time parameter, and seed 42.
-- Recomputed each group mean and sample standard deviation from the transcribed raw values.
+## Ce qui reste à améliorer
 
-## Reproducibility boundary
+Le modèle transmis ne documente pas les graines effectivement utilisées pour les cinq exécutions de chaque scénario. On ne peut donc pas démontrer, uniquement avec ce fichier et les notes manuscrites, que les 15 réplications sont indépendantes ou régénérer exactement toutes leurs valeurs.
 
-The supplied `.alp` file stores a fixed random seed of 42 and does not include an automated replication experiment or the seed values used for the handwritten runs. Consequently, the data table is an evidence-preserving transcription, not a claim that a reader can regenerate all 15 values from the project alone. A future revision should add a Parameter Variation or Monte Carlo experiment, one documented seed per run, exported CSV output, a warm-up policy, and confidence intervals.
+La prochaine campagne doit enregistrer une graine par exécution, exporter les résultats bruts et utiliser un nombre de réplications plus grand. Trente réplications par scénario constituent un premier objectif pratique ; le bon nombre dépend ensuite de la précision recherchée et de la largeur des intervalles de confiance.

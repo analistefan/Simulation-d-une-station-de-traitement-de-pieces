@@ -1,24 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="410" viewBox="0 0 1000 410" role="img" aria-labelledby="title desc">
-  <title id="title">Mean performance indicators by mean processing time</title>
-  <desc id="desc">Bar charts derived from the 15 records in raw_results.csv. Groups are 3, 4 and 4.5 minute mean processing times.</desc>
+  <title id="title">Moyennes des indicateurs par temps de service moyen</title>
+  <desc id="desc">Graphique obtenu à partir des 15 lignes de raw_results.csv. Cinq réplications sont disponibles pour chaque temps de service.</desc>
   <style>text{font-family:Arial,sans-serif;fill:#172033}.title{font-size:21px;font-weight:bold}.subtitle{font-size:12px;fill:#526174}.panel{fill:#f8fafc;stroke:#cbd5e1}.axis{stroke:#94a3b8}.bar1{fill:#2563eb}.bar2{fill:#0f766e}.bar3{fill:#d97706}.value{font-size:13px;font-weight:bold}.label{font-size:12px}.small{font-size:11px;fill:#526174}</style>
   <rect width="1000" height="410" fill="#ffffff"/>
-  <text x="40" y="35" class="title">Recorded means by mean processing time</text>
-  <text x="40" y="56" class="subtitle">Source: results/raw_results.csv • five observations per setting • bars are arithmetic means</text>
+  <text x="40" y="35" class="title">Moyennes relevées selon le temps de service</text>
+  <text x="40" y="56" class="subtitle">Source : results/raw_results.csv • cinq réplications par scénario • barres = moyennes arithmétiques</text>
   <rect x="40" y="85" width="285" height="270" rx="8" class="panel"/>
-  <text x="60" y="115" class="title" style="font-size:16px">Completed parts</text>
-  <line x1="70" y1="315" x2="300" y2="315" class="axis"/><text x="70" y="338" class="small">3.0 min</text><text x="142" y="338" class="small">4.0 min</text><text x="214" y="338" class="small">4.5 min</text>
-  <rect x="76" y="150" width="42" height="165" class="bar1"/><rect x="148" y="163" width="42" height="152" class="bar2"/><rect x="220" y="157" width="42" height="158" class="bar3"/>
-  <text x="78" y="143" class="value">99.4</text><text x="150" y="156" class="value">91.2</text><text x="222" y="150" class="value">94.6</text><text x="70" y="135" class="small">scale: 0–120</text>
+  <text x="60" y="115" class="title" style="font-size:16px">Pièces terminées</text>
+  <line x1="70" y1="315" x2="300" y2="315" class="axis"/><text x="70" y="338" class="small">3,0 min</text><text x="142" y="338" class="small">4,0 min</text><text x="214" y="338" class="small">4,5 min</text>
+  <rect x="76" y="150" width="42" height="165" class="bar1"/><rect x="148" y="161" width="42" height="154" class="bar2"/><rect x="220" y="157" width="42" height="158" class="bar3"/>
+  <text x="78" y="143" class="value">99,4</text><text x="150" y="154" class="value">92,4</text><text x="222" y="150" class="value">94,6</text><text x="70" y="135" class="small">échelle : 0–120</text>
   <rect x="357" y="85" width="285" height="270" rx="8" class="panel"/>
-  <text x="377" y="115" class="title" style="font-size:16px">Mean queue length</text>
-  <line x1="387" y1="315" x2="617" y2="315" class="axis"/><text x="387" y="338" class="small">3.0 min</text><text x="459" y="338" class="small">4.0 min</text><text x="531" y="338" class="small">4.5 min</text>
+  <text x="377" y="115" class="title" style="font-size:16px">Longueur moyenne de file</text>
+  <line x1="387" y1="315" x2="617" y2="315" class="axis"/><text x="387" y="338" class="small">3,0 min</text><text x="459" y="338" class="small">4,0 min</text><text x="531" y="338" class="small">4,5 min</text>
   <rect x="393" y="253" width="42" height="62" class="bar1"/><rect x="465" y="191" width="42" height="124" class="bar2"/><rect x="537" y="139" width="42" height="176" class="bar3"/>
-  <text x="392" y="246" class="value">1.03</text><text x="464" y="184" class="value">2.07</text><text x="536" y="132" class="value">2.94</text><text x="387" y="135" class="small">scale: 0–3.0</text>
+  <text x="392" y="246" class="value">1,03</text><text x="464" y="184" class="value">2,07</text><text x="536" y="132" class="value">2,94</text><text x="387" y="135" class="small">échelle : 0–3,0</text>
   <rect x="674" y="85" width="285" height="270" rx="8" class="panel"/>
-  <text x="694" y="115" class="title" style="font-size:16px">Mean utilization</text>
-  <line x1="704" y1="315" x2="934" y2="315" class="axis"/><text x="704" y="338" class="small">3.0 min</text><text x="776" y="338" class="small">4.0 min</text><text x="848" y="338" class="small">4.5 min</text>
-  <rect x="710" y="178" width="42" height="137" class="bar1"/><rect x="782" y="159" width="42" height="156" class="bar2"/><rect x="854" y="149" width="42" height="166" class="bar3"/>
-  <text x="709" y="171" class="value">0.686</text><text x="781" y="152" class="value">0.780</text><text x="853" y="142" class="value">0.832</text><text x="704" y="135" class="small">scale: 0–1.0</text>
-  <text x="40" y="385" class="small">Sample standard deviations and all individual readings are provided in results/summary.md and results/raw_results.csv.</text>
+  <text x="694" y="115" class="title" style="font-size:16px">Utilisation moyenne</text>
+  <line x1="704" y1="315" x2="934" y2="315" class="axis"/><text x="704" y="338" class="small">3,0 min</text><text x="776" y="338" class="small">4,0 min</text><text x="848" y="338" class="small">4,5 min</text>
+  <rect x="710" y="182" width="42" height="133" class="bar1"/><rect x="782" y="159" width="42" height="156" class="bar2"/><rect x="854" y="149" width="42" height="166" class="bar3"/>
+  <text x="709" y="175" class="value">0,666</text><text x="781" y="152" class="value">0,780</text><text x="853" y="142" class="value">0,832</text><text x="704" y="135" class="small">échelle : 0–1,0</text>
+  <text x="40" y="385" class="small">Les quartiles, écarts-types et intervalles de confiance de Student à 95 % sont dans results/summary.md.</text>
 </svg>

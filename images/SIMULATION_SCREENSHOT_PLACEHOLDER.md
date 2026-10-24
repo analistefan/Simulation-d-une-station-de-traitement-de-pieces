@@ -1,14 +1,14 @@
-# Future Simulation Screenshot Placeholder
+# Emplacement réservé : capture AnyLogic
 
-Add an exported screenshot from the AnyLogic Simulation experiment here when it is available.
+Ajouter ici une capture exportée depuis une véritable exécution de l'expérience *Simulation* dans AnyLogic.
 
-Suggested filename: `anylogic-simulation-run.png`
+Nom conseillé : `anylogic-simulation-run.png`
 
-The capture should visibly include:
+La capture devrait montrer :
 
-- the Source, Queue, Delay, and Sink blocks;
-- the parameter values used for the run;
-- the simulation time or completed horizon; and
-- the three displayed indicators: completed parts, mean queue length, and utilization.
+- les blocs Source, Queue, Delay et Sink ;
+- les paramètres utilisés pour l'exécution ;
+- le temps de simulation ou l'horizon atteint ;
+- les trois indicateurs : pièces terminées, longueur moyenne de file et utilisation.
 
-Do not replace this placeholder with a recreated or illustrative image; use a genuine simulation capture.
+Ne pas remplacer ce document par une image illustrative ou recréée : utiliser une capture réelle du modèle.

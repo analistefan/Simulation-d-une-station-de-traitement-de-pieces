@@ -1,42 +1,38 @@
-# Model Description
+# Description du modèle
 
-## Purpose
+## Idée générale
 
-The supplied AnyLogic project models a single station that receives parts, waits them in a queue, processes them, and removes completed parts from the system.
-
-## Flow logic
+Le projet AnyLogic représente une station unique qui reçoit des pièces, les laisse attendre si la station est occupée, les traite, puis les envoie vers la sortie.
 
 ```text
 srcPieces (Source) -> queueMachine (Queue) -> delayMachine (Delay) -> sinkFinished (Sink)
 ```
 
-The flow is directly encoded by the three connectors in the project file.
+Cette chaîne est celle qui apparaît directement dans le fichier du modèle.
 
-## Parameters and distributions
+## Paramètres et logique observés
 
-| Parameter / element | Definition observed in the project |
+| Élément | Ce qui est défini dans le projet |
 |---|---|
-| `meanArrivalMin` | Parameter, default 5.0 |
-| `meanServiceMin` | Parameter, default 3.0 |
-| `srcPieces` | Generates entities with `exponential(1.0 / meanArrivalMin)` as interarrival time, in minutes |
-| `queueMachine` | Waiting queue; statistics collection is explicitly enabled |
-| `delayMachine` | Processing delay with `exponential(1.0 / meanServiceMin)`, in minutes; statistics collection is explicitly enabled |
-| `sinkFinished` | Counts and disposes of completed entities |
+| `meanArrivalMin` | Paramètre, valeur par défaut : 5,0 |
+| `meanServiceMin` | Paramètre, valeur par défaut : 3,0 |
+| `srcPieces` | Crée les pièces avec `exponential(1.0 / meanArrivalMin)` comme temps entre arrivées, en minutes |
+| `queueMachine` | File d'attente ; la collecte des statistiques est activée |
+| `delayMachine` | Poste de traitement avec `exponential(1.0 / meanServiceMin)`, en minutes ; la collecte des statistiques est activée |
+| `sinkFinished` | Compte les pièces sorties puis les retire du système |
 
-The document reports the literal AnyLogic expressions rather than imposing an interpretation beyond the project file.
+Les expressions sont reproduites telles qu'elles figurent dans le fichier AnyLogic. Cette documentation ne leur donne pas une interprétation supplémentaire qui ne serait pas vérifiable dans le modèle.
 
-## Indicators
+## Indicateurs suivis
 
-| Indicator | AnyLogic expression | Meaning |
+| Indicateur | Expression AnyLogic | Sens |
 |---|---|---|
-| Completed parts | `sinkFinished.count()` | Number of entities that reached the sink by the end of the run |
-| Mean queue length | `queueMachine.statsSize.mean()` | Time-average number of entities in the queue |
-| Mean utilization | `delayMachine.statsUtilization.mean()` | Time-average utilization statistic of the Delay block |
+| Pièces terminées | `sinkFinished.count()` | Nombre de pièces arrivées à la sortie à la fin de la simulation |
+| Longueur moyenne de file | `queueMachine.statsSize.mean()` | Nombre moyen de pièces en attente au cours du temps |
+| Utilisation moyenne | `delayMachine.statsUtilization.mean()` | Taux moyen d'occupation de l'élément Delay |
 
-## Run settings
+## Paramètres d'exécution
 
-The model's time unit is minutes. The Simulation experiment has a fixed seed value of 42 and a final time of 480 minutes. No Parameter Variation or Monte Carlo experiment is present in the supplied project file.
+L'unité du modèle est la minute et l'horizon de l'expérience *Simulation* est de 480 minutes. Dans le fichier transmis, le réglage de génération aléatoire est le mode `Random seed` et la valeur affichée est 42.
 
-## Scope
-
-This repository preserves the project source exactly as supplied in `src/anylogic/`. It does not alter capacities, distributions, or the scheduling policy.
+Le fichier ne contient pas d'expérience automatique de variation de paramètres ou de réplications. Les cinq exécutions par scénario doivent donc être tracées explicitement dans le protocole et dans le fichier de résultats.

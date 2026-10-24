@@ -1,72 +1,73 @@
-# Single-Station Parts-Processing Simulation
+# Simulation d'une station de traitement de pièces
 
-An AnyLogic discrete-event model of a single parts-processing station. The project examines how the mean processing time affects completed parts, the time-average queue length, and station utilization.
+Ce dépôt présente un petit modèle de simulation à événements discrets construit avec AnyLogic. L'idée est simple : observer comment le temps moyen de traitement d'une pièce influence la production, la file d'attente et l'utilisation de la station.
 
-## Model at a glance
+L'objectif n'est pas de tirer des conclusions définitives avec très peu de données. Il s'agit plutôt de poser une démarche propre : conserver les résultats bruts, calculer des indicateurs, mesurer leur variabilité et expliquer clairement ce que les résultats permettent — ou non — de conclure.
+
+## Fonctionnement du modèle
 
 ```mermaid
 flowchart LR
-  A[Source: parts arrive] --> B[Queue] --> C[Delay: processing station] --> D[Sink: completed parts]
+  A[Arrivée des pièces] --> B[File d'attente] --> C[Station de traitement] --> D[Pièces terminées]
 ```
 
-The model is implemented in AnyLogic Process Modeling Library and uses minutes as its time unit. It is intentionally small and suitable for learning, calibration, and controlled parameter experiments.
+Le modèle fourni utilise la bibliothèque *Process Modeling Library* d'AnyLogic et l'unité de temps est la minute.
 
-## Verified model configuration
+| Élément vérifié dans le modèle | Valeur / expression |
+|---|---|
+| Horizon de simulation | 480 minutes |
+| Temps moyen entre arrivées | 5,0 min |
+| Temps de service étudiés | 3,0 ; 4,0 ; 4,5 min |
+| Arrivées | `exponential(1.0 / meanArrivalMin)` |
+| Service | `exponential(1.0 / meanServiceMin)` |
+| Paramètre aléatoire affiché dans AnyLogic | mode `Random seed`, valeur 42 |
+| Pièces terminées | `sinkFinished.count()` |
+| Longueur moyenne de file | `queueMachine.statsSize.mean()` |
+| Utilisation moyenne | `delayMachine.statsUtilization.mean()` |
 
-| Item | Value in the supplied model |
-|---|---:|
-| AnyLogic project format | 8.9.10 |
-| Simulation horizon | 480 minutes |
-| Mean interarrival-time parameter | 5.0 minutes |
-| Processing-time parameter values recorded | 3.0, 4.0, 4.5 minutes |
-| Arrival-time expression | `exponential(1.0 / meanArrivalMin)` |
-| Processing-time expression | `exponential(1.0 / meanServiceMin)` |
-| Random-number setting | Fixed seed: 42 |
-| Queue statistic | `queueMachine.statsSize.mean()` |
-| Utilization statistic | `delayMachine.statsUtilization.mean()` |
-| Output statistic | `sinkFinished.count()` |
+Le modèle source, conservé sans modification, est disponible dans [src/anylogic](src/anylogic).
 
-See [model description](docs/model-description.md) for the model logic and [methodology](docs/methodology.md) for the experiment protocol and validation boundaries.
+## Résultats des 15 réplications relevées
 
-## Results
+Les données comprennent cinq réplications pour chacun des trois temps de service. Elles sont conservées dans [results/raw_results.csv](results/raw_results.csv). Le graphique ci-dessous représente seulement les moyennes calculées à partir de ces relevés.
 
-The handwritten log contains 15 observations: five runs for each processing-time value. Its transcribed data and summary statistics are included in [results/raw_results.csv](results/raw_results.csv) and [results/summary.md](results/summary.md). The chart shows the arithmetic means of those 15 recorded observations.
+![Moyennes des indicateurs](results/mean_indicators.svg)
 
-![Mean performance indicators](results/mean_indicators.svg)
-
-| Mean processing time (min) | Completed parts, mean | Mean queue length | Mean utilization |
+| Temps de service moyen | Pièces terminées, moyenne | File moyenne | Utilisation moyenne |
 |---:|---:|---:|---:|
-| 3.0 | 99.40 | 1.03 | 0.686 |
-| 4.0 | 91.20 | 2.07 | 0.780 |
-| 4.5 | 94.60 | 2.94 | 0.832 |
+| 3,0 min | 99,40 | 1,032 | 66,6 % |
+| 4,0 min | 92,40 | 2,072 | 78,0 % |
+| 4,5 min | 94,60 | 2,942 | 83,2 % |
 
-These figures are a transcription of the supplied handwritten record; they are not generated or extrapolated by this repository. The model file does not define a 15-replication experiment, so the repository deliberately does not claim a fully reproducible replication sequence.
+Les calculs détaillés — moyenne, écart-type, quartiles et intervalles de confiance de Student à 95 % — sont présentés dans [results/summary.md](results/summary.md) et expliqués pas à pas dans [docs/analyse-statistique.md](docs/analyse-statistique.md).
 
-## Repository layout
+## Comment lire ces résultats
 
-- [src/anylogic](src/anylogic): the supplied, unmodified AnyLogic project.
-- [results](results): raw transcription, computed summaries, and a chart derived only from those data.
-- [docs](docs): model interpretation and experiment methodology.
-- [images](images): reserved for project visuals, including the future simulation screenshot placeholder.
+Sur cet échantillon, la longueur de la file et l'utilisation moyenne augmentent lorsque le temps de service augmente. C'est cohérent avec le fonctionnement attendu de la station : si le traitement est plus long, la machine reste occupée plus longtemps et les pièces ont davantage tendance à attendre.
 
-## Reproduce or extend the experiment
+La production moyenne ne diminue pas de façon strictement monotone entre les trois scénarios. Avec seulement cinq réplications par scénario, cela ne permet pas d'affirmer qu'un scénario lent produit réellement plus. Les arrivées et les durées de traitement sont aléatoires, ce qui explique une partie des écarts observés.
 
-1. Install AnyLogic 8.9.10 or a compatible version.
-2. Open [SstationDeTraitementDePièces.alp](src/anylogic/SstationDeTraitementDePièces.alp).
-3. Run the `Simulation` experiment for 480 minutes.
-4. Set `meanServiceMin` to 3.0, 4.0, and 4.5 minutes; retain `meanArrivalMin = 5.0` unless deliberately changing the design.
-5. Record `sinkFinished.count()`, `queueMachine.statsSize.mean()`, and `delayMachine.statsUtilization.mean()` for every run.
-6. To obtain independent replications, explicitly manage and record a distinct seed for each run, then export the raw results before recalculating the summaries.
+## Limites et prochaine étape
 
-A visual placeholder for a future screen capture is in [images/SIMULATION_SCREENSHOT_PLACEHOLDER.md](images/SIMULATION_SCREENSHOT_PLACEHOLDER.md).
+Les cinq observations par scénario constituent un échantillon très limité. Les intervalles de confiance sont donc larges et doivent être lus comme une première estimation, pas comme une preuve définitive.
 
-## Limitations
+Pour améliorer l'étude :
 
-- The supplied project has a fixed seed of 42 and only a standard Simulation experiment; its replication settings are not a complete experimental design.
-- The provided record has no run identifiers, timestamps, or per-run seed values.
-- No warm-up analysis, confidence intervals, or statistical comparison is claimed here.
-- The uploaded image is the evidence for the transcription, but it is not republished to avoid treating a photographed notebook page as a formal generated output.
+1. Exécuter au moins 30 réplications par scénario comme premier objectif pratique.
+2. Enregistrer la graine utilisée pour chaque réplication et vérifier leur indépendance.
+3. Exporter systématiquement les résultats bruts en CSV.
+4. Ajouter des barres d'incertitude aux graphiques.
+5. Augmenter encore le nombre de réplications si les intervalles de confiance restent trop larges pour la précision recherchée.
 
-## License
+## Organisation du dépôt
 
-No license was supplied with the original project. Add one before reusing or distributing the work.
+- [src/anylogic](src/anylogic) : modèle AnyLogic transmis.
+- [results](results) : données brutes, synthèse statistique et graphique.
+- [docs](docs) : description du modèle, méthode expérimentale et explication des calculs.
+- [images](images) : emplacement prévu pour une future capture réelle de la simulation.
+
+Aucune capture de simulation n'a été inventée. Les consignes pour ajouter une capture authentique sont dans [images/SIMULATION_SCREENSHOT_PLACEHOLDER.md](images/SIMULATION_SCREENSHOT_PLACEHOLDER.md).
+
+## Licence
+
+Aucune licence n'a été fournie avec le projet initial. Il faut en ajouter une avant toute réutilisation ou diffusion élargie.
