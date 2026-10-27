@@ -93,15 +93,13 @@ Le réglage doit rester en mode **Random seed**, avec conservation des graines r
 Avec $n=30$, l'intervalle de confiance devient :
 
 $$
-\mathrm{IC}_{95}
-=
-\bar{x} \pm t_{0.975,\,29}\frac{s}{\sqrt{30}}
+\mathrm{IC}_{95} = \bar{x} \pm t_{0.975,\,29}\frac{s}{\sqrt{30}}
 $$
 
 Le coefficient de Student correspondant est :
 
 $$
-t_{0.975,\,29} \approx 2.045
+\mathrm{t}_{0.975,\,29} \approx 2.045
 $$
 
 Chaque graphique devra présenter la moyenne et une barre d'incertitude correspondant à la demi-largeur de cet intervalle. Les résultats bruts CSV doivent toujours être publiés avant les tableaux et graphiques calculés.
