@@ -54,66 +54,71 @@ Ils complètent la moyenne : par exemple, la file moyenne au scénario 4,5 min p
 Comme la variance réelle est inconnue et que l'échantillon est petit, on utilise la loi de Student :
 
 $$
-IC_{95\%}=\bar{x}\pm t_{0{,}975;\,n-1}\frac{s}{\sqrt{n}}
+\mathrm{IC}_{95} = \bar{x} \pm t_{0.975,\,n-1}\frac{s}{\sqrt{n}}
 $$
 
-Ici, $n=5$, donc 4 degrés de liberté et :
+Ici, $n=5$, donc 4 degrés de liberté :
 
 $$
-t_{0{,}975;\,4}\approx2{,}776
+t_{0.975,\,4} \approx 2.776
 $$
 
-Pour les pièces terminées à 3,0 min :
+Pour les pièces terminées à 3,0 minutes :
 
 $$
-99{,}40\pm2{,}776\times\frac{11{,}887}{\sqrt{5}}
-=
-99{,}40\pm14{,}76
+99.40 \pm 2.776 \times \frac{11.887}{\sqrt{5}}
+\approx 99.40 \pm 14.76
 $$
 
+L'intervalle de confiance est donc approximativement :
+
 $$
-IC_{95\%}\approx[84{,}64\,;\,114{,}16]
+\mathrm{IC}_{95} \approx [84.64,\,114.16]
 $$
 
 Les intervalles des trois indicateurs sont publiés dans `results/summary.md`. Ils sont larges pour plusieurs mesures, ce qui confirme la prudence nécessaire. Le chevauchement de deux intervalles n'est pas un test statistique ; aucune différence significative n'est déclarée dans ce dépôt.
 
 ## 4. Lecture des résultats disponibles
 
-Sur les cinq réplications par scénario, la file moyenne passe de 1,032 à 2,072 puis 2,942, et l'utilisation passe de 66,6 % à 78,0 % puis 83,2 %. Cette évolution est cohérente avec une station dont le temps de traitement augmente.
+Sur les cinq réplications par scénario, la file moyenne passe de 1.032 à 2.072 puis 2.942, et l'utilisation passe de 66.6 % à 78.0 % puis 83.2 %. Cette évolution est cohérente avec une station dont le temps de traitement augmente.
 
-La production moyenne varie de 99,40 à 92,40 puis 94,60 pièces : avec ce faible échantillon et des entrées aléatoires, on ne peut pas conclure qu'un service plus lent améliore la production.
+La production moyenne varie de 99.40 à 92.40 puis 94.60 pièces. Avec ce faible échantillon et des entrées aléatoires, on ne peut pas conclure qu'un service plus lent améliore la production.
 
 ## 5. Protocole de 30 réplications
 
-La prochaine campagne utilisera 30 réplications par scénario, soit 90 exécutions. Pour chaque ligne du CSV, enregistrer : scénario, numéro de réplication, graine, paramètres et trois indicateurs. Le réglage doit rester **Random seed**, mais la graine réellement utilisée doit être conservée. Des graines distinctes et traçables sont nécessaires pour soutenir l'hypothèse d'indépendance.
+La prochaine campagne utilisera 30 réplications par scénario, soit 90 exécutions. Pour chaque ligne du CSV, enregistrer : scénario, numéro de réplication, graine, paramètres et trois indicateurs.
 
-Avec $n=30$, l'intervalle devient :
+Le réglage doit rester en mode **Random seed**, avec conservation des graines réellement utilisées. Des graines distinctes et traçables sont nécessaires pour soutenir l'hypothèse d'indépendance.
+
+Avec $n=30$, l'intervalle de confiance devient :
 
 $$
-IC_{95\%}
+\mathrm{IC}_{95}
 =
-\bar{x}\pm t_{0{,}975;\,29}\frac{s}{\sqrt{30}},
-\qquad
-t_{0{,}975;\,29}\approx2{,}045
+\bar{x} \pm t_{0.975,\,29}\frac{s}{\sqrt{30}}
+$$
+
+Le coefficient de Student correspondant est :
+
+$$
+t_{0.975,\,29} \approx 2.045
 $$
 
 Chaque graphique devra présenter la moyenne et une barre d'incertitude correspondant à la demi-largeur de cet intervalle. Les résultats bruts CSV doivent toujours être publiés avant les tableaux et graphiques calculés.
 
 ## 6. Calibration : méthode proposée
 
-La calibration rapproche le modèle de données réelles comparables sur 480 minutes. Il faut notamment des mesures de production, file ou attente, utilisation, arrêts et règles de travail. En l'absence de données réelles, aucune calibration réelle ne doit être annoncée ; un exemple synthétique éventuel doit être explicitement identifié comme fictif.
+La calibration rapproche le modèle de données réelles comparables sur 480 minutes. Il faut notamment des mesures de production, de file ou d'attente, d'utilisation, d'arrêts et des règles de travail.
+
+En l'absence de données réelles, aucune calibration réelle ne doit être annoncée. Tout exemple synthétique doit être explicitement identifié comme fictif.
 
 Un premier vecteur de paramètres est :
 
 $$
-\theta=
-\left(
-\texttt{meanArrivalMin},
-\texttt{meanServiceMin}
-\right)
+\theta = (\mathrm{meanArrivalMin},\,\mathrm{meanServiceMin})
 $$
 
-Pour les indicateurs $k=1,\ldots,K$, une fonction objectif pondérée est :
+Pour les indicateurs $k=1,\ldots,K$, une fonction objectif pondérée possible est :
 
 $$
 J(\theta)
@@ -142,21 +147,37 @@ La calibration retient le vecteur $\theta$ qui minimise $J$, puis vérifie la so
 
 ## 7. Optimisation après calibration
 
-Après calibration, une recherche paramétrique est adaptée au modèle : elle est simple, transparente et ne demande pas de dérivées. On peut, par exemple, choisir une configuration $z$ qui maximise la production sous contraintes :
+Après calibration, une recherche paramétrique est adaptée au modèle : elle est simple, transparente et ne demande pas de dérivées.
+
+On peut, par exemple, choisir une configuration $z$ qui maximise la production :
 
 $$
-\max_{z}\;\bar{N}(z)
+\max_{z} \; \bar{N}(z)
 $$
 
 sous les contraintes :
 
 $$
-\bar{Q}(z)\leq Q_{\max},
-\qquad
-\bar{U}(z)\leq U_{\max},
-\qquad
-z\in\mathcal{Z}
+\bar{Q}(z) \leq Q_{\max}
 $$
+
+$$
+\bar{U}(z) \leq U_{\max}
+$$
+
+$$
+z \in \mathcal{Z}
+$$
+
+Les variables $z$ peuvent inclure la capacité de file, le nombre de stations ou un temps de service cible. Les limites $Q_{\max}$, $U_{\max}$ et le domaine $\mathcal{Z}$ doivent provenir de contraintes opérationnelles réelles.
+
+Chaque solution candidate doit être évaluée par 30 réplications, puis validée par un nouveau lot indépendant de 30 réplications. Une solution est robuste si elle respecte les contraintes et conserve son avantage lors de cette validation.
+
+## Limites
+
+Les cinq réplications actuelles sont insuffisantes pour valider le modèle, calibrer ses paramètres ou optimiser la station. Elles constituent une base de travail transparente.
+
+La priorité est donc : 30 réplications par scénario, enregistrement des graines, export CSV et graphiques avec barres d'incertitude.
 
 Les variables $z$ peuvent inclure la capacité de file, le nombre de stations ou un temps de service cible. Les limites $Q_{\max}$, $U_{\max}$ et le domaine $\mathcal{Z}$ doivent provenir de contraintes opérationnelles réelles.
 
