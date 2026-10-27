@@ -54,9 +54,7 @@ Ils complètent la moyenne : par exemple, la file moyenne au scénario 4,5 min p
 Comme la variance réelle est inconnue et que l'échantillon est petit, on utilise la loi de Student :
 
 $$
-IC_{95\%}
-=
-\bar{x}\pm t_{0{,}975;\,n-1}\frac{s}{\sqrt{n}}
+IC_{95\%}=\bar{x}\pm t_{0{,}975;\,n-1}\frac{s}{\sqrt{n}}
 $$
 
 Ici, $n=5$, donc 4 degrés de liberté et :
