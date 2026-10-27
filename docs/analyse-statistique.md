@@ -119,17 +119,7 @@ $$
 Pour les indicateurs $k=1,\ldots,K$, une fonction objectif pondérée possible est :
 
 $$
-J(\theta)
-=
-\sum_{k=1}^{K}
-w_k
-\left(
-\frac{
-\bar{y}^{\mathrm{sim}}_k(\theta)-y^{\mathrm{obs}}_k
-}{
-a_k
-}
-\right)^2
+J(\theta) = \sum_{k=1}^{K}w_k\left(\frac{\bar{y}^{\mathrm{sim}}_k(\theta)-y^{\mathrm{obs}}_k}{a_k}right)^2
 $$
 
 où :
